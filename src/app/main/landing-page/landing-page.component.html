@@ -1,0 +1,51 @@
+<app-header></app-header>
+<section class="landing-page">
+  <form class="search" #form='ngForm' (ngSubmit)="onSubmit(form)">
+    <fieldset>
+      <legend>Search Git User</legend>
+      <div class="input-user-div">
+        <label for="gitUserName">User Name: </label>
+        <input
+          type="text"
+          id="gitUserName"
+          name="gitUserName"
+          placeholder="e.g.  defunkt "
+          ngModel
+          required
+        >
+        <button type="submit" [disabled]="form.invalid">Search</button>
+      </div>
+    </fieldset>
+  </form>
+  <div class="divide-content"></div>
+  <div class="popular-git-users">
+    <div class="popular-git-users-view">
+      <p class="popular-git-users-view-txt">View</p>
+      <ul>
+        <li><i class="fa fa-2x fa-list" aria-hidden="true"></i></li>
+        <li><i class="fa fa-2x fa-th-large" aria-hidden="true"></i></li>
+      </ul>
+    </div>
+    <div class="popular-git-users-list">
+      <ul>
+        <li>
+          <div class="user-image">
+            <img src="{{userInfo['avatar_url']}}" alt="Avatar not Found !">
+          </div>
+          <div class="user-content">
+            <div class="user-name">
+              <a href="{{userInfo['html_url']}}">{{userInfo['name']}}</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="popular-git-users-grid">
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</section>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
