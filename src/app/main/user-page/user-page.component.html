@@ -1,0 +1,70 @@
+<section class="user-page">
+  <div class="container">
+    <div class="back-btn-div">
+      <i class="fa fa-4x fa-arrow-circle-left"></i>
+    </div>
+    <div class="user-info">
+      <div class="user-image">
+        <img src="{{getUserInfo()['avatar_url']}}" alt="Avatar not Found !">
+      </div>
+      <div class="user-content">
+        <ul>
+          <li>
+            <div class="user-name">
+              <a href="{{getUserInfo()['html_url']}}"><span class="user-info-bold">User Name:</span> {{getUserInfo()['name']}}</a>
+            </div>
+          </li>
+          <li>
+            <p><span class="user-info-bold">Type:</span> {{getUserInfo()['type']}} </p>
+          </li>
+          <li>
+            <p><span class="user-info-bold">Followers: </span> {{getUserInfo()['followers']}}</p>
+          </li>
+          <li>
+            <p><span class="user-info-bold">Following: </span> {{getUserInfo()['following']}}</p>
+          </li>
+          <li>
+            <p><span class="user-info-bold">Public Gists: </span> {{getUserInfo()['public_gists']}}</p>
+          </li>
+          <li>
+            <p><span class="user-info-bold">Public Repositories: </span> {{getUserInfo()['public_repos']}}</p>
+          </li>
+          <li>
+            <div class="user-repos">
+              <p><span class="user-info-bold">User Repositories:</span></p>
+              <ul>
+                <li>
+                  <p class="user-repo-name">Repository Name</p>
+                </li>
+                <li>
+                  <p class="user-repo-name">Repository Name</p>
+                </li>
+                <li>
+                  <p class="user-repo-name">Repository Name</p>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="user-organization">
+      <div class="user-organization-title">
+        <p class="user-organization-title-txt user-info-bold">User Organizations: </p>
+      </div>
+      <div class="user-organization-list">
+        <ul *ngIf="getUserOrganizations()">
+          <li *ngFor=" let organization of getUserOrganizations()">
+            <div class="organization-logo">
+              <img src="{{organization['avatar_url']}}" alt="Logo not found !">
+            </div>
+          </li>
+        </ul>
+        <div class="no-user-organization" *ngIf="!getUserOrganizations()">
+          <p class="no-user-organization-txt">User has no Organization !</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

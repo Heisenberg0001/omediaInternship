@@ -1,0 +1,109 @@
+section {
+  width: 100%;
+  min-height: 1080px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  background: #d6b458;
+}
+section > hr {
+  width: 100%;
+
+  margin-top: 100px;
+
+  border: 6px dotted chocolate;
+}
+section .container {
+  margin-top: 150px;
+  margin-bottom: 150px;
+
+  width: 1500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+section .container .back-btn-div {
+  margin-left: 0;
+  margin-right: auto;
+}
+section .container .back-btn-div i {
+  transition: color 800ms ease-out 100ms;
+}
+section .container .back-btn-div i:hover {
+  color: darkred;
+}
+section .container .user-info {
+  width: 100%;
+
+  margin-top: 100px;
+
+  display: flex;
+  flex-direction: row;
+}
+section .container .user-info .user-image img {
+  width: 350px;
+  height: 350px;
+
+  border-radius: 160px;
+
+  cursor: pointer;
+}
+section .container .user-info .user-content {
+  margin-left: 50px;
+
+  font-size: larger;
+}
+section .container .user-info .user-content > ul > li {
+  margin-bottom: 20px;
+}
+section .container hr {
+  width: 100%;
+
+  margin-top: 100px;
+
+  border: 6px dotted chocolate;
+}
+section .container .user-organization {
+  width: 100%;
+
+  margin-top: 100px;
+
+  display: flex;
+  flex-direction: column;
+
+  font-size: larger;
+}
+section .container .user-organization .user-organization-list {
+  margin-top: 50px;
+}
+section .container .user-organization .user-organization-list > ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+section .container .user-organization .user-organization-list > ul > li {
+  margin-right: 25px;
+  margin-bottom: 20px;
+}
+section .container .user-organization .user-organization-list > ul > li .organization-logo img {
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50px;
+
+  cursor: pointer;
+
+  transition: border-radius 800ms ease-out 50ms;
+}
+section .container .user-organization .user-organization-list > ul > li .organization-logo img:hover {
+  border-radius: 100px;
+}
+section .container .user-organization .user-organization-list .no-user-organization .no-user-organization-txt {
+  color: darkred;
+
+  font-weight: bolder;
+  font-size: x-large;
+}

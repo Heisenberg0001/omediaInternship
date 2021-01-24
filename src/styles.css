@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+
+  font-family: Roboto, sans-serif;
+  color: #24292e;
+}
+a {
+  text-decoration: none;
+  color: #24292e;
+}
+a:visited {
+  color: #3a3c47;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.user-info-bold {
+  font-weight: bold;
+}
+i {
+  cursor: pointer;
+}
