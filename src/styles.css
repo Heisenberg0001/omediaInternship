@@ -5,7 +5,10 @@
   box-sizing: border-box;
 
   font-family: Roboto, sans-serif;
-  color: #24292e;
+  color: #1a1d1f;
+}
+body {
+  width: 100%;
 }
 a {
   text-decoration: none;
@@ -19,9 +22,19 @@ ul {
   padding: 0;
   margin: 0;
 }
+i {
+  cursor: pointer;
+}
 .user-info-bold {
   font-weight: bold;
 }
-i {
+.no-user-organization-txt {
+  color: darkred;
+
+  font-weight: bolder;
+  font-size: x-large;
+}
+.user-name-txt {
   cursor: pointer;
+  margin-left: 3px;
 }

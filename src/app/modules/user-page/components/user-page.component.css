@@ -101,9 +101,3 @@ section .container .user-organization .user-organization-list > ul > li .organiz
 section .container .user-organization .user-organization-list > ul > li .organization-logo img:hover {
   border-radius: 100px;
 }
-section .container .user-organization .user-organization-list .no-user-organization .no-user-organization-txt {
-  color: darkred;
-
-  font-weight: bolder;
-  font-size: x-large;
-}

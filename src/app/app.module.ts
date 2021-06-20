@@ -5,18 +5,24 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { MainModule } from './main/main.module';
+import { LandingPageModule } from './modules/landing-page/landing-page.module';
+import { UserPageModule } from './modules/user-page/user-page.module';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    MainModule
+    LandingPageModule,
+    UserPageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

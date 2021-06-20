@@ -21,7 +21,7 @@
       <hr>
     </div>
     <div class="popular-git-users">
-      <div class="popular-git-users-view">
+      <div class="popular-git-users-view-btns">
         <p class="popular-git-users-view-txt">View</p>
         <ul>
           <li><i class="fa fa-2x fa-list" aria-hidden="true" (click)="onListView()"></i></li>
@@ -30,15 +30,16 @@
       </div>
       <div *ngIf="getListView()" class="popular-git-users-list-view">
         <ul>
-          <li *ngFor="let user of getUsersInfo()">
+          <li *ngFor="let user of getUsersInfo(); let i = index">
             <div class="user-image">
-              <img src="{{user['avatar_url']}}" alt="Avatar not Found !">
+              <img src="{{user['avatar_url']}}" alt="Avatar not Found !" (click)="onClick(i)">
             </div>
             <div class="user-content">
               <ul>
                 <li>
                   <div class="user-name">
-                    <a href="{{user['html_url']}}"><span class="user-info-bold">User Name:</span> {{user.login}}</a>
+                    <p><span class="user-info-bold">User Name:</span>
+                      <span class="user-name-txt" (click)="onClick(i)">{{user['name']}}</span></p>
                   </div>
                 </li>
                 <li>
@@ -46,18 +47,7 @@
                 </li>
                 <li>
                   <div class="user-repos">
-                    <p><span class="user-info-bold">User Repositories:</span></p>
-                    <ul>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                    </ul>
+                    <p><span class="user-info-bold">Repos:</span> <a href="{{user['followers_url']}}"> Navigate to Repositories</a> </p>
                   </div>
                 </li>
               </ul>
@@ -67,35 +57,20 @@
       </div>
       <div *ngIf="getGridView()" class="popular-git-users-grid-view">
         <ul>
-          <li *ngFor="let user of getUsersInfo()">
+          <li *ngFor="let user of getUsersInfo(); let i = index">
             <div class="user-image">
-              <img src="{{user['avatar_url']}}" alt="Avatar not Found !">
+              <img src="{{user['avatar_url']}}" alt="Avatar not Found !" (click)="onClick(i)">
             </div>
             <div class="user-content">
               <ul>
                 <li>
                   <div class="user-name">
-                    <a href="{{user['html_url']}}"><span class="user-info-bold">User Name:</span> {{user['name']}}</a>
+                    <p><span class="user-info-bold">User Name:</span><span class="user-name-txt" (click)="onClick(i)">{{user['name']}}</span></p>
+                    <a href="{{user['html_url']}}"></a>
                   </div>
                 </li>
                 <li>
                   <p><span class="user-info-bold">Type:</span> {{user['type']}} </p>
-                </li>
-                <li>
-                  <div class="user-repos">
-                    <p><span class="user-info-bold">User Repositories:</span></p>
-                    <ul>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                      <li>
-                        <p class="user-repo-name">Repository Name</p>
-                      </li>
-                    </ul>
-                  </div>
                 </li>
               </ul>
             </div>

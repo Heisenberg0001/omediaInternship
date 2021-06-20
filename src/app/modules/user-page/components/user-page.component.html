@@ -1,9 +1,9 @@
 <section class="user-page">
   <div class="container">
     <div class="back-btn-div">
-      <i class="fa fa-4x fa-arrow-circle-left"></i>
+      <i class="fa fa-4x fa-arrow-circle-left" (click)="onBackBtn()"></i>
     </div>
-    <div class="user-info">
+    <div class="user-info" *ngIf="getUserInfo(); else noUserInfo">
       <div class="user-image">
         <img src="{{getUserInfo()['avatar_url']}}" alt="Avatar not Found !">
       </div>
@@ -32,38 +32,42 @@
           <li>
             <div class="user-repos">
               <p><span class="user-info-bold">User Repositories:</span></p>
-              <ul>
-                <li>
-                  <p class="user-repo-name">Repository Name</p>
-                </li>
-                <li>
-                  <p class="user-repo-name">Repository Name</p>
-                </li>
-                <li>
-                  <p class="user-repo-name">Repository Name</p>
+              <ul *ngIf=" getUserRepos() && getUserRepos().length > 0 ; else noUserRepos">
+                <li *ngFor="let repo of [0, 1, 2]; let i = index">
+                  <p class="user-repo-name">{{getUserRepos()[i]['name']}}</p>
                 </li>
               </ul>
+              <ng-template #noUserRepos>
+                <ul>
+                  <li>
+                    <p class="user-repo-name">User has no Repositories !</p>
+                  </li>
+                </ul>
+              </ng-template>
             </div>
           </li>
         </ul>
       </div>
     </div>
+    <ng-template #noUserInfo class="no-user-info">
+      <h3 class="no-user-info-txt">User info was not Found!</h3>
+    </ng-template>
     <hr>
     <div class="user-organization">
       <div class="user-organization-title">
         <p class="user-organization-title-txt user-info-bold">User Organizations: </p>
       </div>
       <div class="user-organization-list">
-        <ul *ngIf="getUserOrganizations()">
+        <ul *ngIf="getUserOrganizations() && getUserOrganizations().length > 0; else noUserOrganisations">
           <li *ngFor=" let organization of getUserOrganizations()">
             <div class="organization-logo">
               <img src="{{organization['avatar_url']}}" alt="Logo not found !">
             </div>
           </li>
         </ul>
-        <div class="no-user-organization" *ngIf="!getUserOrganizations()">
+        <ng-template #noUserOrganisations class="no-user-organization">
           <p class="no-user-organization-txt">User has no Organization !</p>
-        </div>
+        </ng-template>
       </div>
     </div>
   </div>

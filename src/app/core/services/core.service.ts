@@ -1,52 +1,64 @@
-import {Injectable, OnInit} from '@angular/core';
-
-import { GitUser } from '../../shared/models/git-user.model';
-import { GitRepositories } from '../../shared/models/git-repositories.model';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { EMPTY, from, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, from, Observable } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
-import { catchError, distinctUntilChanged, map } from 'rxjs/operators';
-import { GitBase} from '../../shared/models/git-base.model';
+import { catchError, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
+
+import { GIT_API_URL } from '../../config/http';
+import { GitUserDetailed } from '../../shared/interfaces/git-user-detailed.interface';
+import { GitRepositories } from '../../shared/interfaces/git-repositories.interface';
+import { GitBase } from '../../shared/interfaces/git-base.interface';
+import { GitOrganizations } from '../../shared/interfaces/git-organizations.interface';
+import { GitUser } from '../../shared/interfaces/git-user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class CoreService implements OnInit {
-  private readonly _url = "https://api.github.com/search/users?q=";
-  private _userInfo: GitUser;
-  private _userRepos: GitRepositories[];
+export class CoreService implements OnInit, OnDestroy {
+  private _user: GitUserDetailed;
+  private _users: GitUser[];
+  private _usersInfoSubscription: Subscription;
 
-  constructor( private _http: HttpClient ) {
+  constructor( private _httpClient: HttpClient ) {}
+
+  ngOnInit(): void {}
+  ngOnDestroy() {
+    this._usersInfoSubscription.unsubscribe();
   }
 
-  ngOnInit(): void {
+  public setUserInfo( user: GitUserDetailed ): void {
+    this._user = user;
   }
-
-  public setUserInfo( user: GitUser ): void {
-    this._userInfo = user;
+  public getUserInfo(): GitUserDetailed {
+    return this._user;
   }
-
-  public setUserRepos( repositories: GitRepositories[] ): void {
-    this._userRepos = repositories;
+  public getUsersInfo(): GitUser[] {
+    return this._users;
   }
-
+  public setUsersInfo(newUsers: GitUser[]): void {
+    this._users = newUsers;
+  }
+  public getPopularUsers(): Observable<GitUser[]> {
+    return this._httpClient.get<GitBase>(`${GIT_API_URL}?q=followers:>21000`).pipe(
+      catchError( err => EMPTY ),
+      map( payload => payload.items ));
+  }
   public searchUsers( user: string ): Observable<GitUser[]> {
-    return from(
-      ajax.getJSON<GitBase>(this._url + user ).pipe(
-        map( users => users.items),
-        distinctUntilChanged(),
-        catchError( err => EMPTY )
-      )
+    return this._httpClient.get<GitBase>(`${GIT_API_URL}?q=${user}`).pipe(
+      catchError( err => EMPTY ),
+      map( payload => payload.items )
     );
   }
-
-  public searchUserRepos( userRepoURL: GitUser ): Observable<GitRepositories[]> {
-
-      return from(
-        ajax.getJSON<GitRepositories[]>(userRepoURL['repos_url']).pipe(
-          catchError( err => EMPTY )
-        ));
-
+  public searchUserName( user: GitUser): Observable<GitUserDetailed> {
+    return this._httpClient.get<GitUserDetailed>(`${user['url']}`).pipe(
+      catchError( err => EMPTY ));
+  }
+  public searchUserRepos( user: GitUserDetailed ): Observable<GitRepositories[]> {
+    return this._httpClient.get<GitRepositories[]>(`${user['repos_url']}`).pipe(
+      catchError( err => EMPTY ));
+  }
+  public searchUserOrganizations( user: GitUserDetailed ): Observable<GitOrganizations[]> {
+    return this._httpClient.get<GitOrganizations[]>(`${user['organizations_url']}`).pipe(
+      catchError( err => EMPTY ));
   }
 }
