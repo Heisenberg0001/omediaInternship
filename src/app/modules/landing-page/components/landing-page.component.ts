@@ -37,8 +37,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.getPopularUsers();
   }
   ngOnDestroy() {
-    this._usersSubscription.unsubscribe();
-    this._usersInfoSubscription.unsubscribe()
+    if(this._usersSubscription) {
+      this._usersSubscription.unsubscribe();
+    }
+    if(this._usersInfoSubscription) {
+      this._usersInfoSubscription.unsubscribe()
+    }
   }
 
   private getPopularUsers() {
