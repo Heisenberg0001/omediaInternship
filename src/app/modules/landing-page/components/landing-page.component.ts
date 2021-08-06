@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GitUser } from '../../../shared/interfaces/git-user.interface';
 import { CoreService } from '../../../core/services/core.service';
 import { GitUserDetailed } from '../../../shared/interfaces/git-user-detailed.interface';
-import { delay, mergeMap } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-landing-page',
@@ -37,10 +35,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.getPopularUsers();
   }
   ngOnDestroy() {
-    if(this._usersSubscription) {
+    if (this._usersSubscription) {
       this._usersSubscription.unsubscribe();
     }
-    if(this._usersInfoSubscription) {
+    if (this._usersInfoSubscription) {
       this._usersInfoSubscription.unsubscribe()
     }
   }
@@ -633,15 +631,15 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 
         if (users.length) {
 
-          for(let i = 0; i < 25; i++) {
+          for (let i = 0; i < 25; i++) {
             this._usersInfoSubscription = this._coreService.searchUserName(users[i]).subscribe(
               (userInfo) => {
                 this._usersInfo.push(userInfo);
 
-                if( i === 24 ){
+                if (i === 24) {
                   localStorage.setItem('popularUsersInfo', JSON.stringify(this._usersInfo));
                 }
-              })
+              });
           }
         }
       });
@@ -665,10 +663,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
   public onListView(): void {
 
-    if(!this._toListView){
+    if (!this._toListView){
       this._toListView = true;
       this._toGridView = !this._toListView;
-    } else return;
+    } else {
+      return;
+    }
 
   }
   public onGridView(): void {
@@ -676,7 +676,9 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     if (!this._toGridView) {
       this._toGridView = true;
       this._toListView = !this._toGridView;
-    } else return;
+    } else {
+      return;
+    }
   }
   public onClick(clickIndex: number): void {
     let tempUser = this.getUsersInfo()[clickIndex];
@@ -687,7 +689,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   public onSubmit(form: NgForm): void {
 
     //Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.
-    if(/^[\d\w][\d\w-]*[\d\w]?$/g.test(form.value["gitUserName"])) {
+    if (/^[\d\w][\d\w-]*[\d\w]?$/g.test(form.value["gitUserName"])) {
 
       this._usersSubscription = this._coreService.searchUsers(form.value["gitUserName"]).subscribe((users) => {
         this._users = users;
@@ -696,15 +698,15 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 
           this._usersInfo = [];
 
-          for(let i = 0; i < this._users.length; i++) {
+          for (let i = 0; i < this._users.length; i++) {
             this._usersInfoSubscription = this._coreService.searchUserName(this._users[i]).subscribe(
               (userInfo) => {
                 this._usersInfo.push(userInfo);
 
-                if(i === this._users.length - 1) {
+                if (i === this._users.length - 1) {
                   localStorage.setItem('searchedUsersInfo', JSON.stringify(this._usersInfo));
                 }
-              })
+              });
           }
         }
       });

@@ -26,17 +26,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
                ) {}
 
   ngOnInit() {
-    if(this._coreService.getUserInfo()) {
+    if (this._coreService.getUserInfo()) {
 
       this._userInfo = this._coreService.getUserInfo();
-      console.log(this._userInfo)
       if (this._userInfo) {
         this._userOrganizationSubscription = this._coreService.searchUserOrganizations(this._userInfo).subscribe((organization) => {
             this._userOrganizationsInfo = organization;
-          })
+          });
         this._userReposSubscription = this._coreService.searchUserRepos(this._userInfo).subscribe( (repos) => {
           this._userRepositories = repos;
-        })
+        });
       }
     }
   }
