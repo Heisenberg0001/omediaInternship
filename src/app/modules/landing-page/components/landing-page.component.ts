@@ -46,7 +46,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
   private getPopularUsers() {
-    if (!localStorage.getItem('popularUsersInfo') || localStorage.getItem('usersInfo') === undefined ) {
+    if (!localStorage.getItem('popularUsersInfo')) {
 
       // this._usersInfo = [
       //   {
@@ -650,6 +650,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
       this._usersInfo = JSON.parse(localStorage.getItem('popularUsersInfo'));
     }
   }
+
   public getListView(): boolean {
     return this._toListView;
   }
@@ -661,32 +662,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
   public getUsers(): GitUser[] {
     return this._users;
-  }
-  public onSubmit(form: NgForm): void {
-
-    //Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.
-    if(/^[\d\w][\d\w-]*[\d\w]?$/g.test(form.value["gitUserName"])) {
-
-      this._usersSubscription = this._coreService.searchUsers(form.value["gitUserName"]).subscribe((users) => {
-        this._users = users;
-
-        if (this._users.length) {
-          for(let i = 0; i < this._users.length; i++) {
-            this._usersInfoSubscription = this._coreService.searchUserName(this._users[i]).subscribe(
-              (userInfo) => {
-                this._usersInfo.push(userInfo);
-
-                if(i === this._users.length - 1) {
-                  console.log(this._usersInfo);
-                  localStorage.setItem('searchedUsersInfo', JSON.stringify(this._usersInfo));
-                }
-              })
-          }
-        }
-      });
-    } else {
-      return;
-    }
   }
   public onListView(): void {
 
@@ -709,4 +684,34 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this._coreService.setUserInfo(tempUser);
     this._router.navigate([`/${tempUser['id']}`], { relativeTo: this._activatedRoute })
   }
+  public onSubmit(form: NgForm): void {
+
+    //Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.
+    if(/^[\d\w][\d\w-]*[\d\w]?$/g.test(form.value["gitUserName"])) {
+
+      this._usersSubscription = this._coreService.searchUsers(form.value["gitUserName"]).subscribe((users) => {
+        this._users = users;
+
+        if (this._users.length) {
+
+          this._usersInfo = [];
+
+          for(let i = 0; i < this._users.length; i++) {
+            this._usersInfoSubscription = this._coreService.searchUserName(this._users[i]).subscribe(
+              (userInfo) => {
+                this._usersInfo.push(userInfo);
+
+                if(i === this._users.length - 1) {
+                  localStorage.setItem('searchedUsersInfo', JSON.stringify(this._usersInfo));
+                }
+              })
+          }
+        }
+      });
+    } else {
+      console.error("Input is Incorrect !");
+      alert("Input is Incorrect !");
+    }
+  }
+
 }
